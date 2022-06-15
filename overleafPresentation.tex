@@ -47,7 +47,7 @@ The probes included within this section have the ability to measure both soil mo
 \end{enumerate}
 
 \subsection{Conclusion}
-We claim that although the GroPoint Multi-Segment Probe proved to be useful in cutting costs, the Irrometer Tensiometer's superior reliability, popularity amongst researchers, and acceptable cost proves that it is the better option for the MINTS soil research team.
+Althugh the GroPoint Multi-Segment Probe proved to be useful in cutting costs, we claim that the Irrometer Tensiometer's superior reliability, popularity amongst researchers, and acceptable cost establish it as the better option for the MINTS soil research team.
 
 
 \section{Sensor Profile 2: Shallow/Single Depth Sensors}
@@ -55,7 +55,10 @@ For the purposes of the MINTS soil research, shallow/single depth sensors are se
 
 \subsection{General Single-Depth}
 \begin{enumerate}
-\item EM500-SMTC
+\item Milesight LoRaWAN Soil Moisture, Temperature, and Electrical Conductivity Sensor (EM500-SMTC)
+\begin{itemize}
+\item Capable of measuring and outputting soil moisture, temperature, and electrical soil conductivity (soil moisture and electrical soil are particularly useful in agricultural monitoring and examining the concentration of soil nutrients)
+\end{itemize}
 \end{enumerate}
 
 \subsection{NPK}
@@ -65,18 +68,34 @@ For the purposes of the MINTS soil research, shallow/single depth sensors are se
 \subsection{Conclusion}
 
 \section{Sensor Profile 3: Various Depth Sensors (Includes Multi-Depth)}
-%definition
+The sensors included within this section all have the ability to record data at different soil depths, whether discretely or simultaneously.
 
-\subsection{Various Depth}
+\subsection{Various Depth}  
 \begin{enumerate}
-\item 
+\item Sensoterra Soil Moisture Sensors
+\begin{itemize}
+    \item Available in several depth sizes (15cm, 30cm, 60cm, 90cm); takes hourly measurements on soil moisture and uses the LoRaWAN network to transmit this data wirelessly
+    \item Low-cost (pricetag of \$300) and accurate - proven by
+    %https://www.mdpi.com/1424-8220/20/24/7041
+    %price info given by https://dspace.mit.edu/handle/1721.1/129273
+    \item Internal housing for onboard electronics enables an effective system that is largely unhindered by surroundings particulates
+    \item Is popular among researches seeking low-cost, durable, and accurate moisture sensors
+\end{itemize}
 \end{enumerate}
 
 \subsection{Multi-Depth}
 \begin{enumerate}
-\item
+\item Sensoterra Multi-Depth Sensors
+\begin{itemize}
+    \item Comes with 6 soil moisture sensors and a temperature sensor attached (meaning it can simultaneously track soil metrics at several different depths), uses LoRaWAN to relay data (akin to the variable-depth sensor)
+    \item Costs \$500
+    \item Similar design to the aforementioned single-depth version, which itself seemed robust and durable
+    \item As a result of its heftier price, the sensor doesn't find much use within the scientific community
+\end{itemize}
 \end{enumerate}
 
 \subsection{Conclusion}
+We conclude here that to recommend one Sensoterra Variable-Depth sensor over the other is impractical, as both have their own situational strengths: the variable single-depth devices come at a low cost, offering less flexibility with measurement, while the multi-depth sensors come with additional moisture and temperature probes at a higher price.
+%multi depth prob better
 
 \end{document}
