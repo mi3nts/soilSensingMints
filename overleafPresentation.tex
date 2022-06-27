@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage{array}
 \usepackage{tabularx}
+\usepackage{layout}
 
 %reliability factor, cost, outputs (soil/ph/etc)
 %use research papers and articles to gather info
@@ -26,7 +27,7 @@ In this analysis, we present our findings on a multitude of soil sensors, all of
 
 
 \section{Sensor Profile 1: Probes}
-The probes included within this section have the ability to measure both soil moisture and temperature
+The probes included within this section have the ability to measure both soil moisture and temperature. All probes within this section are available for purchase as of 6/26.
 
 \subsection{Probes}
 \begin{enumerate}
@@ -67,7 +68,7 @@ Although the GroPoint Multi-Segment Probe proved to be useful in cutting costs, 
 
 
 \section{Sensor Profile 2: Shallow/Single Depth Sensors}
-For the purposes of the MINTS soil research, shallow/single depth sensors are sensors that collect data on soil's moisture and temperature, similar to the probes above. None of the sensors in this section have been extensively used in soil research.
+For the purposes of the MINTS soil research, shallow/single depth sensors are sensors that collect data on soil's moisture and temperature, similar to the probes above. None of the sensors in this section have been extensively used in soil research. All probes within this section are available for purchase as of 6/26.
 
 \subsection{General Single-Depth}
 \begin{enumerate}
@@ -138,7 +139,7 @@ For the purposes of the MINTS soil research, shallow/single depth sensors are se
 1. LoRaWAN Soil NPK Sensor (LSNPK01): \url{https://www.dragino.com/products/agriculture-weather-station/item/182-lsnpk01.html}
 \begin{itemize}
 
-\item Capable of measuring soil fertility nutrients like nitogen, phosphorus, and potassium.
+\item Capable of measuring soil fertility nutrients like nitrogen, phosphorus, and potassium.
 \item Medium cost (pricetag of \$150)
 \item Outputs on US915 (maximum 928 MHz), uses LoRaWAN communication protocol
 
@@ -154,7 +155,7 @@ For the purposes of the MINTS soil research, shallow/single depth sensors are se
 1. LSPH01 -- LoRaWAN Soil pH Sensor: \url{https://www.dragino.com/products/agriculture-weather-station/item/184-lsph01.html}
 \begin{itemize}
 
-\item Capable of measuring pH and soil temperature, which are important metrics in order to assess potential soil nutrients based off acidity and akalinity.
+\item Capable of measuring pH and soil temperature, which are important metrics in order to assess potential soil nutrients based off acidity and alkalinity.
 \item Low-Medium cost (pricetag of \$130)	
 \item Outputs on US915 (maximum 928 MHz), uses LoRaWAN communication protocol
 
@@ -202,7 +203,7 @@ For the purposes of the MINTS soil research, shallow/single depth sensors are se
 We conclude that in order to have wide-scale deployment of soil sensors while still maintaining cost efficiency, a combination of the LSPH01, LSNPK01, and the LSE01 would prove effective. Because these three sensors combined are capable of measuring pH, soil fertility nutrients, electrical conductivity, soil moisture, and soil temperature, a wide variety of data could be collected to assess soil health with the combination of these three sensors. Although not much research is done looking at the reliability and uncertainty of these sensors, due to the fact that these sensors largely come from the similar companies, the reliability is probably good enough to satisfy years worth of data collecting. The price discrepancy between some of the cheaper and more expensive sensors is most likely the uncertainty of the data outputted, which is most likely minor and not evidently detrimental to the soil project. If ambient temperature is also needed, either one of the ambient agricultural sensors would suffice since their specs are nearly identical.
 
 \section{Sensor Profile 3: Various Depth Sensors (Includes Multi-Depth)}
-The sensors included within this section all have the ability to record data at different soil depths either discretely or simultaneously.
+The sensors included within this section all have the ability to record data at different soil depths either discretely or simultaneously. All probes within this section are available for purchase as of 6/26.
 
 \subsection{Various Depth}  
 \begin{enumerate}
@@ -245,20 +246,29 @@ The sensors included within this section all have the ability to record data at 
 
 \subsection{Conclusion}
 We conclude here that to recommend one Sensoterra Variable-Depth sensor over the other is impractical, as both have their own situational strengths: the variable single-depth devices come at a low cost, offering less flexibility with measurement, while the multi-depth sensors come with additional moisture and temperature probes at a higher price.
-%multi depth prob better
 
 \section{Reference Table}
 
-\begin{tabularx}{0.8\textwidth} { 
-  | >{\raggedright\arraybackslash}X 
-  | >{\centering\arraybackslash}X 
-  | >{\raggedleft\arraybackslash}X | }
- \hline
- Sensor Name & Cost Per Unit & Availability & Data Outputs and accuracies & Reliability & Communication Protocol & LoRaWAN Capability  \\
- \hline
- GroPoint  \\
-\hline
-\end{tabularx}
 
+\begin{table}
+\centering
+\hspace*{-4.5cm}
+\begin{tabular}{lllllll}
+Product                                                                                                                                        & Cost per unit                                                      & Availability & \begin{tabular}[c]{@{}l@{}}Data outputs and \\accuracies\end{tabular}                                                                                    & \begin{tabular}[c]{@{}l@{}}Relative \\reliability\end{tabular} & \begin{tabular}[c]{@{}l@{}}Communication \\Protocol\end{tabular} & \begin{tabular}[c]{@{}l@{}}LoRaWAN \\Capability\end{tabular}  \\
+\begin{tabular}[c]{@{}l@{}}GroPoint Profile: \\Multi-Segment \\Soil Moisture and \\Temperature \\Profiling Probe\end{tabular}                  & \begin{tabular}[c]{@{}l@{}}Quote\\Requested \end{tabular} & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture and \\temperature over \\multiple depths\\Accuracy: +/-~2.0\%\end{tabular}                                      & Reliable                                                       & Not Found                                                        & \begin{tabular}[c]{@{}l@{}}No\\Capability\end{tabular}        \\
+\begin{tabular}[c]{@{}l@{}}Irrometer \\Tensiometer\end{tabular}                                                                                & \$104 - \$110                                                      & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture \\and temperature \\over multiple depths\\Accuracy: No value listed\end{tabular}                                & Fairly Reliable                                                & Not Found                                                        & \begin{tabular}[c]{@{}l@{}}No\\Capability\end{tabular}        \\
+\begin{tabular}[c]{@{}l@{}}Milesight LoRaWAN \\Soil Moisture,\\Temperature, and \\Electrical Conductivity \\Sensor \\(EM500-SMTC)\end{tabular} & \$600                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture, \\temperature, and \\electrical conductivity \\Accuracy: +/- 2\%\end{tabular}                                  & Very Reliable                                                  & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}SenseCAP \\S2105-LoRaWAN \\Soil Moisture, \\Temperature, \\and EC Sensor\end{tabular}                               & \$139                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture, temperature, \\and electrical conductivity\\Accuracy:~\\0 to 50\%: +/-~3\%,\\50 to 100\%: +/-~5\%\end{tabular} & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}SenseCAP Wireless \\Soil Moisture and \\Temperature \\Sensor - LoRaWAN \\(EU868MHz)\end{tabular}                    & \$219                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil moisture and \\temperature\\Accuracy:~+/-~2\%(0 to 50\%)~\\+/- 5\% ( 50 to 100 \%)\end{tabular}                          & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}LSE01 – LoRaWAN \\Soil Moisture \\EC Sensor\end{tabular}                                                            & \$130                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture and \\electrical conductivity\\Accuracy: +/- 3\% (0-53\%)\\+/- 5\% (\textgreater{}53\%)\end{tabular}            & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}LoRaWAN Soil \\NPK Sensor \\(LSNPK01)\end{tabular}                                                                  & \$150                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil nutrients like nitrogen \\and phosphorus\\Accuracy: +/- 2\%\end{tabular}                                                 & Very Reliable                                                  & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}LSPH01 – LoRaWAN \\Soil pH Sensor\end{tabular}                                                                      & \$130                                                              & Available    & \begin{tabular}[c]{@{}l@{}}pH and temperature\\Accuracy: No value listed\end{tabular}                                                                    & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}KIWI Agriculture \\Sensor\end{tabular}                                                                              & \begin{tabular}[c]{@{}l@{}}Quote\\Requested \end{tabular} & Available    & \begin{tabular}[c]{@{}l@{}}Soil moisture, ambient \\temperature, and humidity\\Accuracy: No value listed\end{tabular}                                    & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}Clover Agriculture \\Sensor\end{tabular}                                                                            & \begin{tabular}[c]{@{}l@{}}Quote \\Requested  \end{tabular} & Available    & \begin{tabular}[c]{@{}l@{}}Ambient temperature,\\humidity, and soil \\moisture\\Accuracy: No value listed\end{tabular}                                   & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}Sensoterra Soil \\Moisture Sensors\end{tabular}                                                                     & \$300                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture~over \\multiple depths\\Accuracy: No value listed\end{tabular}                                                  & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}Sensoterra \\Multi-Depth \\Sensors\end{tabular}                                                                     & \$500                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture~over \\multiple depths\\Accuracy: No value listed\end{tabular}                                                  & Reliable                                                       & Not Found                                                        & Compatible                                                   
+\end{tabular}
+\end{table}
 
 \end{document}
+
