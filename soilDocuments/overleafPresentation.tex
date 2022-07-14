@@ -1,1 +1,332 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{xurl}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{layout}
 
+%reliability factor, cost, outputs (soil/ph/etc)
+%use research papers and articles to gather info
+
+\title{MINTS Soil Sensors}
+\author{Vardhan Agnihotri, Seth Lee}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In this analysis, we present our findings on a multitude of soil sensors, all of which have the potential to be useful for the MINTS soil research program's goal of creating a low-cost, reliable, and efficient soil sensing package. Given the variations among these devices (in price, reliability, build quality, technical popularity, etc.), sensors belonging to a unique category will be collectively examined in accordance with several criteria which we determined to be pertinent to MINTS soil research:
+\begin{enumerate}
+    \item Reliability and cost effectiveness
+    \item Outputs
+    \item Quality %could be removed on the basis of the lack of info available to us`
+    \item Popularity within the scientific community (based on scholarly articles and papers)
+\end{enumerate}
+
+
+\section{Sensor Profile 1: Probes}
+The probes included within this section have the ability to measure both soil moisture and temperature. All probes within this section are available for purchase as of 6/26.
+
+\subsection{Probes}
+\begin{enumerate}
+\item GroPoint Profile: Multi-Segment Soil Moisture and Temperature Profiling Probe: \url{https://www.gropoint.com/products/soil-sensors/gropoint-profile}
+
+\begin{itemize}
+    \item Utilizes SDI-12 for information transmission
+    \item Provides cost effective soil moisture measurement (exact pricepoint couldn't be determined) over several depths using a single probe, eliminating the need for multiple cumbersome sensors while also reducing the manufacturing cost
+    \item Entirety of the sensor's circuit board (including the antenna) is housed within a polycarbonate housing sealed with epoxy, resulting in maximum durability
+    \item Sensors are deployed in scientific research within the fields of farming, agriculture, mining, and hydrology
+    
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/gropoint.png}
+    \caption{GroPoint Profile: Multi-Segment Soil Moisture and Temperature Profiling Probe}
+\end{figure}
+
+\end{itemize}
+
+\item Irrometer Tensiometer: \url{https://www.irrometer.com/sensors.html}
+\begin{itemize}
+    \item First developed in 1951, remains the standard tensiometer (soil moisture measurement device) for scientific agricultural research to this day
+    \item Generally inexpensive and reliable (options priced anywhere from \$104 - \$111) - comes in three different models that are all suited to their own respective environments 
+    \item Membrane-vented cover prohibits entry of dirt or other particulates into device, thus ensuring both accuracy and longevity of the product
+    
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/irrometer.png}
+    \caption{Irrometer Tensiometer}
+\end{figure}
+
+\end{itemize}
+
+\end{enumerate}
+
+\subsection{Conclusion}
+Although the GroPoint Multi-Segment Probe proved to be useful in cutting costs, we claim that the Irrometer Tensiometer's superior reliability, popularity amongst researchers, and acceptable cost establish it as the better option for the MINTS soil research team.
+
+
+\section{Sensor Profile 2: Shallow/Single Depth Sensors}
+For the purposes of the MINTS soil research, shallow/single depth sensors are sensors that collect data on soil's moisture and temperature, similar to the probes above. None of the sensors in this section have been extensively used in soil research. All probes within this section are available for purchase as of 6/26.
+
+\subsection{General Single-Depth}
+\begin{enumerate}
+\item Milesight LoRaWAN Soil Moisture, Temperature, and Electrical Conductivity Sensor (EM500-SMTC): \url{https://www.milesight-iot.com/lorawan/sensor/em500-smtc/}
+
+\begin{itemize}
+
+\item Can output/measure soil moisture, temperature, and electrical soil conductivity (soil moisture and electrical soil are particularly useful in agricultural monitoring and examining the concentration of soil nutrients)
+\item Medium-High cost (pricetag of \$600)
+\item Outputs on the US915 frequency (maximum 928 MHz), uses LoRaWAN protocol to communicate
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/milesight.png}
+    \caption{EM500-SMTC}
+\end{figure}
+
+\end{itemize}
+
+\item SenseCAP S2105-LoRaWAN Soil Moisture, Temperature, and EC Sensor: \url{https://www.seeedstudio.com/SenseCAP-S2105-LoRaWAN-Soil-Temperature-Moisture-and-EC-Sensor-p-5358.html}
+\begin{itemize}
+
+\item Measures soil moisture, temperature, and electrical conductivity, metrics which are useful measurements for assessing soil quality and subsequent plant health.
+\item Low-Medium cost (pricetag of \$139)
+\item Maximum 928 MHz output, communicates over LoRaWAN protocol
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/senscap s2105.jpg}
+    \caption{SenseCAP S2105-LoRaWAN Sensor}
+\end{figure}
+
+\end{itemize}
+
+\item SenseCAP Wireless Soil Moisture and Temperature Sensor - LoRaWAN (EU868MHz): \url{https://www.seeedstudio.com/LoRaWAN-Soil-Moisture-and-Temperature-Sensor-EU868-p-4316.html?}
+\begin{itemize}
+
+\item Capable of measuring temperature and soil volumetric water content, which provides useful indication of soil and plant health.
+\item Medium cost (pricetag of \$219)
+\item Transmits over the EU868 broadband network (maximum 868 MHz), uses LoRaWAN protocol to communicate
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/senscap eu868.png}
+    \caption{SenseCAP EU868 Sensor}
+\end{figure}
+
+\end{itemize}
+
+\item LSE01 -- LoRaWAN Soil Moisture & EC Sensor: \url{https://www.dragino.com/products/agriculture-weather-station/item/159-lse01.html}
+\begin{itemize}
+
+\item Capable of measuring soil moisture, temperature, and electrical conductivity
+\item Low-Medium cost (pricetag of \$130)	
+\item Outputs on the US915 frequency broadband network (maximum 928 MHz), uses LoRaWAN communication protocol
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/LSE01-10.jpg}
+    \caption{LSE01 LoRaWAN Sensor}
+\end{figure}
+
+\end{itemize}
+\end{enumerate}
+
+
+\subsection{NPK}
+1. LoRaWAN Soil NPK Sensor (LSNPK01): \url{https://www.dragino.com/products/agriculture-weather-station/item/182-lsnpk01.html}
+\begin{itemize}
+
+\item Capable of measuring soil fertility nutrients like nitrogen, phosphorus, and potassium.
+\item Medium cost (pricetag of \$150)
+\item Outputs on US915 (maximum 928 MHz), uses LoRaWAN communication protocol
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/npk.PNG}
+    \caption{LSNPK01 NPK Sensor}
+\end{figure}
+
+\end{itemize}
+
+\subsection{pH}
+1. LSPH01 -- LoRaWAN Soil pH Sensor: \url{https://www.dragino.com/products/agriculture-weather-station/item/184-lsph01.html}
+\begin{itemize}
+
+\item Capable of measuring pH and soil temperature, which are important metrics in order to assess potential soil nutrients based off acidity and alkalinity.
+\item Low-Medium cost (pricetag of \$130)	
+\item Outputs on US915 (maximum 928 MHz), uses LoRaWAN communication protocol
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/ph.jpg}
+    \caption{LSPH01 pH Sensor}
+\end{figure}
+
+\end{itemize}
+
+\subsection{Ambient}
+1. KIWI Agriculture Sensor: \url{https://tektelic.com/catalog/Agriculture-Sensor}
+\begin{itemize}
+
+\item Capable of measuring soil moisture, ambient temperature, and humidity
+\item Exact price not listed
+\item Operates on all global ISM bands, uses LoRaWAN communication protocol
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/kiwi.png}
+    \caption{KIWI Agriculture Sensor}
+\end{figure}
+
+\end{itemize}
+
+\item 2. Clover Agriculture Sensor: \url{https://tektelic.com/catalog/clover-agriculture-sensor}
+\begin{itemize}
+
+\item Capable of measuring ambient temperature, humidity, and soil moisture
+\item Exact price not listed
+\item Operates on all global ISM bands, uses LoRaWAN communication protocol
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/clover.png}
+    \caption{Clover Agriculture Sensor}
+\end{figure}
+
+\end{itemize}
+
+
+\subsection{Conclusion}
+We conclude that in order to have wide-scale deployment of soil sensors while still maintaining cost efficiency, a combination of the LSPH01, LSNPK01, and the LSE01 would prove effective. Because these three sensors combined are capable of measuring pH, soil fertility nutrients, electrical conductivity, soil moisture, and soil temperature, a wide variety of data could be collected to assess soil health with the combination of these three sensors. Although not much research is done looking at the reliability and uncertainty of these sensors, due to the fact that these sensors largely come from the similar companies, the reliability is probably good enough to satisfy years worth of data collecting. The price discrepancy between some of the cheaper and more expensive sensors is most likely the uncertainty of the data outputted, which is most likely minor and not evidently detrimental to the soil project. If ambient temperature is also needed, either one of the ambient agricultural sensors would suffice since their specs are nearly identical.
+
+\section{Sensor Profile 3: Various Depth Sensors (Includes Multi-Depth)}
+The sensors included within this section all have the ability to record data at different soil depths either discretely or simultaneously. All probes within this section are available for purchase as of 6/26.
+
+\subsection{Various Depth}  
+\begin{enumerate}
+\item Sensoterra Soil Moisture Sensors: \url{https://www.sensoterra.com/en/product/single-depth-sensor/}
+\begin{itemize}
+
+    \item Available in several depth sizes (15cm, 30cm, 60cm, 90cm); takes hourly measurements on soil moisture and uses the LoRaWAN network to transmit this data wirelessly (communicates over US 902-928 MHz broadband frequencies)
+    \item Medium-cost (pricetag of \$300)
+    \item Internal housing for onboard electronics enables an effective system that is largely unhindered by surroundings particulates
+    \item Is popular among researches seeking low-cost, durable, and accurate moisture sensors
+    
+ \begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/SD Sensor all lengths-02.png}
+    \caption{Sensoterra Soil Moisture Sensor}
+\end{figure}
+
+
+\end{itemize}
+\end{enumerate}
+
+\subsection{Multi-Depth}
+\begin{enumerate}
+\item Sensoterra Multi-Depth Sensors: \url{https://www.sensoterra.com/en/product/multi-depth-sensor/}
+\begin{itemize}
+
+    \item Comes with 6 soil moisture sensors and a temperature sensor attached (meaning it can simultaneously track soil metrics at several different depths), uses LoRaWAN to relay data (communicates over US 928 MHz broadband frequencies)
+    \item Mid-High Cost (pricetag of \$500)
+    \item Similar design to the aforementioned single-depth version, which itself seemed robust and durable
+    \item As a result of its heftier price, the sensor doesn't find much use within the scientific community
+    
+ \begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{figures/Multi Depth sensor overview-02.png}
+    \caption{Sensoterra Multi-Depth Sensor}
+\end{figure}
+
+\end{itemize}
+\end{enumerate}
+
+\subsection{Conclusion}
+We conclude here that to recommend one Sensoterra Variable-Depth sensor over the other is impractical, as both have their own situational strengths: the variable single-depth devices come at a low cost, offering less flexibility with measurement, while the multi-depth sensors come with additional moisture and temperature probes at a higher price.
+
+\section{Reference Table}
+
+
+\begin{table}
+\centering
+\hspace*{-4.5cm}
+\begin{tabular}{lllllll}
+Product                                                                                                                                        & Cost per unit                                                      & Availability & \begin{tabular}[c]{@{}l@{}}Data outputs and \\accuracies\end{tabular}                                                                                    & \begin{tabular}[c]{@{}l@{}}Relative \\reliability\end{tabular} & \begin{tabular}[c]{@{}l@{}}Communication \\Protocol\end{tabular} & \begin{tabular}[c]{@{}l@{}}LoRaWAN \\Capability\end{tabular}  \\
+\begin{tabular}[c]{@{}l@{}}GroPoint Profile: \\Multi-Segment \\Soil Moisture and \\Temperature \\Profiling Probe\end{tabular}                  & \begin{tabular}[c]{@{}l@{}}Quote\\Requested \end{tabular} & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture and \\temperature over \\multiple depths\\Accuracy: +/-~2.0\%\end{tabular}                                      & Reliable                                                       & Not Found                                                        & \begin{tabular}[c]{@{}l@{}}No\\Capability\end{tabular}        \\
+\begin{tabular}[c]{@{}l@{}}Irrometer \\Tensiometer\end{tabular}                                                                                & \$104 - \$110                                                      & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture \\and temperature \\over multiple depths\\Accuracy: No value listed\end{tabular}                                & Fairly Reliable                                                & Not Found                                                        & \begin{tabular}[c]{@{}l@{}}No\\Capability\end{tabular}        \\
+\begin{tabular}[c]{@{}l@{}}Milesight LoRaWAN \\Soil Moisture,\\Temperature, and \\Electrical Conductivity \\Sensor \\(EM500-SMTC)\end{tabular} & \$600                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture, \\temperature, and \\electrical conductivity \\Accuracy: +/- 2\%\end{tabular}                                  & Very Reliable                                                  & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}SenseCAP \\S2105-LoRaWAN \\Soil Moisture, \\Temperature, \\and EC Sensor\end{tabular}                               & \$139                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture, temperature, \\and electrical conductivity\\Accuracy:~\\0 to 50\%: +/-~3\%,\\50 to 100\%: +/-~5\%\end{tabular} & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}SenseCAP Wireless \\Soil Moisture and \\Temperature \\Sensor - LoRaWAN \\(EU868MHz)\end{tabular}                    & \$219                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil moisture and \\temperature\\Accuracy:~+/-~2\%(0 to 50\%)~\\+/- 5\% ( 50 to 100 \%)\end{tabular}                          & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}LSE01 – LoRaWAN \\Soil Moisture \\EC Sensor\end{tabular}                                                            & \$130                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture and \\electrical conductivity\\Accuracy: +/- 3\% (0-53\%)\\+/- 5\% (\textgreater{}53\%)\end{tabular}            & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}LoRaWAN Soil \\NPK Sensor \\(LSNPK01)\end{tabular}                                                                  & \$150                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil nutrients like nitrogen \\and phosphorus\\Accuracy: +/- 2\%\end{tabular}                                                 & Very Reliable                                                  & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}LSPH01 – LoRaWAN \\Soil pH Sensor\end{tabular}                                                                      & \$130                                                              & Available    & \begin{tabular}[c]{@{}l@{}}pH and temperature\\Accuracy: No value listed\end{tabular}                                                                    & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}KIWI Agriculture \\Sensor\end{tabular}                                                                              & \begin{tabular}[c]{@{}l@{}}Quote\\Requested \end{tabular} & Available    & \begin{tabular}[c]{@{}l@{}}Soil moisture, ambient \\temperature, and humidity\\Accuracy: No value listed\end{tabular}                                    & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}Clover Agriculture \\Sensor\end{tabular}                                                                            & \begin{tabular}[c]{@{}l@{}}Quote \\Requested  \end{tabular} & Available    & \begin{tabular}[c]{@{}l@{}}Ambient temperature,\\humidity, and soil \\moisture\\Accuracy: No value listed\end{tabular}                                   & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}Sensoterra Soil \\Moisture Sensors\end{tabular}                                                                     & \$300                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture~over \\multiple depths\\Accuracy: No value listed\end{tabular}                                                  & Reliable                                                       & Not Found                                                        & Compatible                                                    \\
+\begin{tabular}[c]{@{}l@{}}Sensoterra \\Multi-Depth \\Sensors\end{tabular}                                                                     & \$500                                                              & Available    & \begin{tabular}[c]{@{}l@{}}Soil Moisture~over \\multiple depths\\Accuracy: No value listed\end{tabular}                                                  & Reliable                                                       & Not Found                                                        & Compatible                                                   
+\end{tabular}
+\end{table}
+
+\begin{table}[]
+\hspace*{-3.4cm}
+\begin{tabular}{lll}
+Product &
+  Power Requirements &
+  Sampling Rate \\
+\begin{tabular}[c]{@{}l@{}}GroPoint Profile: Multi-Segment Soil Moisture \\ and Temperature Profiling Probe\end{tabular} &
+  Low Power &
+  Quote Requested \\
+  \\
+Irrometer Tensiometer &
+  Low Power &
+  Quote Reqeusted \\
+  \\
+\begin{tabular}[c]{@{}l@{}}Milesight LoRaWAN Soil Moisture, Temperature, \\ and Electrical Conductivity Sensor (EM500-SMTC)\end{tabular} &
+  Ultra Low Power, Battery Life \textgreater 10 years &
+  \begin{tabular}[c]{@{}l@{}}CN470/RU864/IN865/EU868/\\ AU915/US915/KR920/AS923\end{tabular} \\
+  \\
+\begin{tabular}[c]{@{}l@{}}SenseCAP S2105-LoRaWAN Soil Moisture, \\ Temperature, and EC Sensor:\end{tabular} &
+  Ultra Low Power, Battery Life \textgreater 10 years &
+  \begin{tabular}[c]{@{}l@{}}7 Frequency plans between \\ 863MHz$\sim$928MHz\end{tabular} \\
+  \\
+\begin{tabular}[c]{@{}l@{}}SenseCAP Wireless Soil Moisture and \\ Temperature Sensor - LoRaWAN (EU868MHz):\end{tabular} &
+  Ultra Low Power, Battery Life \textgreater 6 years &
+  \begin{tabular}[c]{@{}l@{}}867.1$\sim$868.MHz - SF7BW125\\ to SF12BW125\end{tabular} \\
+  \\
+LSE01 -- LoRaWAN Soil Moisture \& EC Sensor &
+  Ultra Low Power, Battery Life \textgreater 10 years &
+  \begin{tabular}[c]{@{}l@{}}CN470/EU433/KR920/US915/EU868/\\ AS923/AU915/IN865\end{tabular} \\
+  \\
+LoRaWAN Soil NPK Sensor (LSNPK01) &
+  Ultra Low Power, Battery Life \textgreater 5 Years &
+  \begin{tabular}[c]{@{}l@{}}EU433/CN470/EU868/IN865/KR920/\\ AS920/AS923/AU915/US915\end{tabular} \\
+  \\
+LSPH01 -- LoRaWAN Soil pH Sensor &
+  Ultra Low Power, Battery Life \textgreater 5 Years &
+  \begin{tabular}[c]{@{}l@{}}EU433/CN470/EU868/IN865/KR920/\\ AS920/AS923/AU915/US915\end{tabular} \\
+  \\
+KIWI Agriculture Sensor &
+  Ultra Low Power, Battery Life \textgreater 10 Years &
+  All Global Bands \\
+  \\
+Clover Agriculture Sensor &
+  Ultra Low Power, Battery Life \textgreater 10 Years &
+  All Global Bands \\
+  \\
+Sensoterra Soil Moisture Sensors &
+  Ultra Low Power, Battery Life \textgreater 6 Years &
+  902$\sim$928 MHz \\
+  \\
+ 
+Sensoterra Multi-Depth Sensors &
+  Ultra Low Power, Battery Life \textgreater 6 Years &
+  902$\sim$928 MHz
+\end{tabular}
+\end{table}
+
+\end{document}
+
+\end{document}
