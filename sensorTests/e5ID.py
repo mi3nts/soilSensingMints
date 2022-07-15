@@ -14,8 +14,8 @@ def openSerial(portIn, baudRate):
             bytesize = serial.EIGHTBITS,
             timeout = 0)
 
-    return ser;
-  
+    return ser
+
 def findPorts(strIn1, strIn2):
     ports = list(serial.tools.list_ports.comports())
     allPorts = []
@@ -27,7 +27,7 @@ def findPorts(strIn1, strIn2):
     return allPorts
   
 def sendCommand(serIn, commandStrIn, timeOutIn):
-    serIn.write(str.encode(commandStrIn+ '\n\r'))
+    serIn.write(str.encode(commandStrIn + '\r'))
     line = []
     lines = []
     startTime = time.time()
@@ -40,19 +40,20 @@ def sendCommand(serIn, commandStrIn, timeOutIn):
                 print(dataString)
                 line = []
                 break
-    return lines;  
+    return lines
 
 
 canareePorts = findPorts("Canaree PM","PID=10C4:EA60")[0]
 loRaE5MiniPorts = findPorts("CP2102N USB to UART Bridge Controller","PID=10C4:EA60")[0]
 gpsPorts = findPorts("u-blox 7 - GPS/GNSS Receiver","PID=1546:01A7")[0]
 
-serE5Mini    = openSerial(loRaE5MiniPorts, 9600)
+serE5Mini = openSerial(loRaE5MiniPorts, 9600)
     
 
 print(" ")
 print("Connected to: " + serE5Mini.portstr)
 print(" ")
-    
-ID = sendCommand(serE5Mini, "AT+ID", 1)
+
+ID = sendCommand(serE5Mini, "AT+ID=DevEui", 1) #test if it receives AT
 print(ID)
+serE5Mini.close()
