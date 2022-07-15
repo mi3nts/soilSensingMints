@@ -1,9 +1,11 @@
 import serial
 import serial.tools.list_ports
 import datetime
+import time
 #from mintsXU4 import mintsSensorReader as mSR
 #from mintsXU4 import mintsDefinitions as mD
 import sys
+import numpy as np
 
 def findPorts(strIn1,strIn2):
     ports = list(serial.tools.list_ports.comports())
@@ -52,7 +54,29 @@ def readSerialLineStr(serIn, timeOutSensor, strExpected):
                     else:    
                         startFound = True
                         line = []
+                        
+def readSerialLine(serIn,timeOutSensor,sizeExpected):
+    line = []
+    startTime = time.time()
+    startFound = False
+    while (time.time()-startTime)<timeOutSensor:   
+        # try:
+            for c in serIn.read():
+                line.append(chr(c))
+                # print((''.join(line)))
 
+                if chr(c) == '\n':
+                    if startFound == True:
+                        dataString     = (''.join(line))
+                        dataStringPost = dataString.replace('\r\n', '')
+                        dataStringData =  dataStringPost.split(',')
+                        if sizeExpected == len(dataStringData):
+                            return dataStringData;
+                        else:
+                            line = []
+                    else:    
+                        startFound = True
+                        line = []
 
 def main():
   
@@ -72,29 +96,20 @@ def main():
     lineGPS = []
 
     while True:
-        try:
-            #for a in serE5Mini.read():
-                #lineE5.append(chr(a))
-                #if chr(a) == '\n':
-                    #dataStringE5 = (''.join(lineE5))
-                    #print(dataStringE5)
-                    #lineE5 = []
-                    
-            #for b in serCanaree.read():
-                #lineCanaree.append(chr(b))
-                #if chr(b) == '\n':
-                    #dataStringCanaree = (''.join(lineCanaree))
-                    #print(dataStringCanaree)
-                    #lineCanaree = []
-                    
-            sensorData = readSerialLineStr(serGPS, 2, "GGA")
+        #try:
+
+            sensorData = readSerialLine(serCanaree, 2, 44)
             print(sensorData)
             
-        except:
-            print("Incomplete String Read")
-            lineE5 = []
-            lineGPS = []
-            lineCanaree = []
+            
+            sensorData = readSerialLineStr(serGPS, 3, "GGA")
+            print(sensorData)
+            
+        #except:
+            #print("Incomplete String Read")
+            #lineE5 = []
+            #lineGPS = []
+            #lineCanaree = []
             
 
 
