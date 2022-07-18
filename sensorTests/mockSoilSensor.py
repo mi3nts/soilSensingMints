@@ -3,6 +3,7 @@ from random import randrange, uniform
 import time
 import datetime
 import json
+import struct
 
 
 
@@ -15,11 +16,11 @@ while True:
     randpH = uniform(6, 7.5)
 
     soilSensorDictionary = OrderedDict([("dateTime", str(current_time)),
-                                    ("Moisture", randSoilMoisture),
-                                    ("Nitrogen", randN),
-                                    ("Phosphorus", randP),
-                                    ("Potassium", randK),
-                                    ("pH", randpH)])
+                                    ("Moisture", struct.pack("f", randSoilMoisture)),
+                                    ("Nitrogen", struct.pack("f", randN)),
+                                    ("Phosphorus", struct.pack("f", randP)),
+                                    ("Potassium", struct.pack("f", randK)),
+                                    ("pH", struct.pack("f", randpH))])
 
     print(soilSensorDictionary)
 
