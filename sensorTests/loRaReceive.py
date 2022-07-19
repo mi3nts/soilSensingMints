@@ -29,8 +29,8 @@ nodeIDs = mD.nodeIDs
 connected    = False  # Stores the connection status
 broker       = mqttBroker  
 port         = mqttPort  # Secure port
-mqttUN       = "utd.mints"
-mqttPW       = "jD2DRChbYI3q"
+mqttUN       = "username"
+mqttPW       = "password"
 nodeObjects  = []
 decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict)
 
