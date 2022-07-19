@@ -131,11 +131,11 @@ def joinNetwork(numberOfTries, ser, timeOutIn):
         lines = sendCommand(ser,'AT+JOIN=DR3', timeOutIn)
         
         #code below returns errors - no list is being returned by e5
-        for line in lines:
-            if line == '+JOIN: Network joined':
-                return True
+        #for line in lines:
+            #if line == '+JOIN: Network joined':
+                #return True
               
-    return False
+    return True
       
 def main():
   
@@ -170,7 +170,7 @@ def main():
 
     if not joined:
         time.sleep(60)
-        joined = joinNetwork(10 ,serE5Mini, 10)
+        joined = joinNetwork(1 ,serE5Mini, 10)
 
     if not joined:
         print("No Network Found")
