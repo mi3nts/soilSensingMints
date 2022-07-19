@@ -6,6 +6,7 @@ import time
 #from mintsXU4 import mintsDefinitions as mD
 import sys
 import numpy as np
+import struct
 
 def findPorts(strIn1,strIn2):
     ports = list(serial.tools.list_ports.comports())
@@ -55,7 +56,7 @@ def readSerialLineStr(serIn, timeOutSensor, strExpected):
                         startFound = True
                         line = []
                         
-def readSerialLine(serIn,timeOutSensor,sizeExpected):
+def readSerialLine(serIn, timeOutSensor, sizeExpected):
     line = []
     startTime = time.time()
     startFound = False
@@ -74,11 +75,71 @@ def readSerialLine(serIn,timeOutSensor,sizeExpected):
                             return dataStringData;
                         else:
                             line = []
-                    else:    
+                    else:
                         startFound = True
                         line = []
+                        
+def sendCommand(serIn, commandStrIn, timeOutIn):
+    serIn.write(str.encode(commandStrIn+ '\n\r'))
+    line = []
+    lines = []
+    startTime = time.time()
+    while (time.time()-startTime)<timeOutIn:
+        for c in serIn.read():
+            line.append(chr(c))
+            if chr(c) == '\n':
+                dataString = (''.join(line)).replace("\n","").replace("\r","")
+                lines.append(dataString)
+                print(dataString)
+                line = []
+                break
+                
+def getMessageStringHex(dataIn, sensorIn):
+    if sensorIn == "IPS7100CNR":
+         strOut  = \
+            np.uint32(dataIn[1]).tobytes().hex().zfill(8)+ \
+            np.uint32(dataIn[3]).tobytes().hex().zfill(8) + \
+            np.uint32(dataIn[5]).tobytes().hex().zfill(8)+ \
+            np.uint32(dataIn[7]).tobytes().hex().zfill(8) + \
+            np.uint32(dataIn[9]).tobytes().hex().zfill(8)+ \
+            np.uint32(dataIn[11]).tobytes().hex().zfill(8) + \
+            np.uint32(dataIn[13]).tobytes().hex().zfill(8)+ \
+            np.float32(dataIn[15]).tobytes().hex().zfill(8)+ \
+            np.float32(dataIn[17]).tobytes().hex().zfill(8) + \
+            np.float32(dataIn[19]).tobytes().hex().zfill(8)+ \
+            np.float32(dataIn[21]).tobytes().hex().zfill(8) + \
+            np.float32(dataIn[23]).tobytes().hex().zfill(8)+ \
+            np.float32(dataIn[25]).tobytes().hex().zfill(8) + \
+            np.float32(dataIn[27]).tobytes().hex().zfill(8)
 
+    return strOut
+
+    if sensorIn == "BME688CNR":
+        strOut  = \
+            np.float32(dataIn[29]).tobytes().hex().zfill(8)+ \
+            np.float32(dataIn[31]).tobytes().hex().zfill(8) + \
+            np.float32(dataIn[33]).tobytes().hex().zfill(8)+ \
+            np.float32(dataIn[35]).tobytes().hex().zfill(8) + \
+            np.float32(dataIn[37]).tobytes().hex().zfill(8)+ \
+            np.float32(dataIn[39]).tobytes().hex().zfill(8) + \
+            np.float32(dataIn[41]).tobytes().hex().zfill(8)
+    return strOut
+
+def joinNetwork(numberOfTries, ser, timeOutIn):
+    for currentTry in range(numberOfTries):
+        print("Joining Network Trial: " + str(currentTry))
+        lines = sendCommand(ser,'AT+JOIN=DR3', timeOutIn)
+        
+        #code below returns errors - no list is being returned by e5
+        for line in lines:
+            if line == '+JOIN: Network joined':
+                return True
+              
+    return False
+      
 def main():
+  
+    appKey = "CDCC4B13264CEDF92BEA7953C4034E21"
   
     serE5Mini    = openSerial(loRaE5MiniPorts,9600)
     serCanaree   = openSerial(canareePorts,115200)
@@ -90,28 +151,50 @@ def main():
     print("Connected to: " + serCanaree.portstr)
     print("Connected to: " + serGPS.portstr)
     print(" ")
+    
+    sendCommand(serE5Mini,'AT+RESET',2)
+    sendCommand(serE5Mini,'AT+FDEFAULT',1)
+    sendCommand(serE5Mini,'AT+VER',1)
+    sendCommand(serE5Mini,'AT+FDEFAULT',1)
+    sendCommand(serE5Mini,'AT+ID',1)
+    sendCommand(serE5Mini,'AT+KEY=APPKEY, "'+appKey+'"',1)
+    sendCommand(serE5Mini,'AT+MODE=LWOTAA',1)
+    sendCommand(serE5Mini,'AT+DR=US915',1)
+    sendCommand(serE5Mini,'AT+DR=dr2',1)
+    sendCommand(serE5Mini,'AT+CH=NUM, 56-63',1)
+    sendCommand(serE5Mini,'AT+POWER=20',1)
+    sendCommand(serE5Mini,'AT+PORT=2',2)
+        
+    joined = False 
+    joined = joinNetwork(10, serE5Mini, 10)
 
-    lineE5 = []
-    lineCanaree = []
-    lineGPS = []
+    if not joined:
+        time.sleep(60)
+        joined = joinNetwork(10 ,serE5Mini, 10)
 
+    if not joined:
+        print("No Network Found")
+    else:
+        print("Network Found")
+        
+    message    = hex(struct.unpack('<I', struct.pack('<I', 254))[0])
+    message = message.replace('0x','').zfill(2)
+    sendCommand(serE5Mini,'AT+MSGHEX='+str(message),5)
+    
+    
     while True:
-        #try:
-
-            sensorData = readSerialLine(serCanaree, 2, 44)
-            print(sensorData)
+      
+        #sensorData = readSerialLine(serCanaree, 2, 44)
+        #print(sensorData)
             
             
-            sensorData = readSerialLineStr(serGPS, 3, "GGA")
-            print(sensorData)
-            
-        #except:
-            #print("Incomplete String Read")
-            #lineE5 = []
-            #lineGPS = []
-            #lineCanaree = []
-            
-
+        #sensorData = readSerialLineStr(serGPS, 3, "GGA")
+        #print(sensorData)
+        
+        sensorData = readSerialLine(serCanaree,2,44)
+        strOut = getMessageStringHex(sensorData, "IPS7100CNR")
+        sendCommand(serE5Mini,'AT+PORT=17',2)
+        sendCommand(serE5Mini,'AT+MSGHEX='+str(strOut),5)
 
 if __name__ == "__main__":
     print("=============")
