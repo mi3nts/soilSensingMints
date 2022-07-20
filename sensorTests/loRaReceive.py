@@ -15,8 +15,8 @@ from traceback import print_tb
 import paho.mqtt.client as mqtt
 import yaml
 import mintsLiveNodes as mLN
-from backports.datetime_fromisoformat import MonkeyPatch
-from datetime import date, datetime, time
+#from backports.datetime_fromisoformat import MonkeyPatch
+#from datetime import date, time
 
 
 dataFolder = "/home/teamlary/mnt/teamlary1/mintsData"
@@ -33,10 +33,12 @@ nodeObjects  = []
 decoder = json.JSONDecoder(object_pairs_hook=OrderedDict)
 nodeIDsPre = yaml.load(open("credentials/nodeIDs.yaml"),Loader=yaml.FullLoader)
 nodeIDs = nodeIDsPre['nodeIDs']
-MonkeyPatch.patch_fromisoformat()
+#MonkeyPatch.patch_fromisoformat()
 portIDsFile         = "credentials/portIDs.yaml"
 portDefinitions     = yaml.load(open(portIDsFile),Loader=yaml.FullLoader)
 portIDs             = portDefinitions['portIDs']
+
+global sensorDictionary
 
 ###############################################
 
@@ -64,8 +66,6 @@ def loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary):
     return;
 
 def sensorReceiveLoRa(dateTime,nodeID,sensorID,framePort,base16Data):
-    sensorDictionary =  OrderedDict([
-                ("dateTime" , str(dateTime))])
     
     if(sensorID=="SOILMOISTURE"):
         sensorDictionary = SOILMOISTURELoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data) 
@@ -77,7 +77,7 @@ def SOILMOISTURELoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
     if(framePort == 17 and len(base16Data) == 8) :
         sensorDictionary =  OrderedDict([
                 ("dateTime", str(dateTime)), 
-        		("SoilMoisture", struct.unpack('<L',bytes.fromhex(base16Data[0:8]))[0]), #what does <L do
+        		("SoilMoisture", struct.unpack('<L',bytes.fromhex(base16Data[0:8]))[0])
         ])
         
     #loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary)  
@@ -121,7 +121,8 @@ def loRaSummaryReceive(message,portIDs):
     txInfo              =  sensorPackage['txInfo']
     loRaModulationInfo  =  txInfo['loRaModulationInfo']
     sensorID            = portIDs[getPortIndex(sensorPackage['fPort'],portIDs)]['sensor']
-    dateTime            = datetime.fromisoformat(sensorPackage['publishedAt'][0:26]) #edited with monkeypatch
+    inputDate           = sensorPackage['publishedAt'][0:26]
+    dateTime            = inputDate.replace("T", " ") #edited with monkeypatch
     base16Data          = base64.b64decode(sensorPackage['data'].encode()).hex()
     gatewayID           = base64.b64decode(rxInfo['gatewayID']).hex()
     framePort           = sensorPackage['fPort']
