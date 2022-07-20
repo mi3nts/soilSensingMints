@@ -6,6 +6,9 @@ import time
 #from mintsXU4 import mintsDefinitions as mD
 import sys
 import numpy as np
+from random import randrange, uniform
+from collections import OrderedDict
+import json
 import struct
 
 def findPorts(strIn1,strIn2):
@@ -95,40 +98,30 @@ def sendCommand(serIn, commandStrIn, timeOutIn):
                 break
                 
 def getMessageStringHex(dataIn, sensorIn):
-    if sensorIn == "IPS7100CNR":
+    if sensorIn == "SOILMOISTURE":
          strOut  = \
-            np.uint32(dataIn[1]).tobytes().hex().zfill(8)+ \
-            np.uint32(dataIn[3]).tobytes().hex().zfill(8) + \
-            np.uint32(dataIn[5]).tobytes().hex().zfill(8)+ \
-            np.uint32(dataIn[7]).tobytes().hex().zfill(8) + \
-            np.uint32(dataIn[9]).tobytes().hex().zfill(8)+ \
-            np.uint32(dataIn[11]).tobytes().hex().zfill(8) + \
-            np.uint32(dataIn[13]).tobytes().hex().zfill(8)+ \
-            np.float32(dataIn[15]).tobytes().hex().zfill(8)+ \
-            np.float32(dataIn[17]).tobytes().hex().zfill(8) + \
-            np.float32(dataIn[19]).tobytes().hex().zfill(8)+ \
-            np.float32(dataIn[21]).tobytes().hex().zfill(8) + \
-            np.float32(dataIn[23]).tobytes().hex().zfill(8)+ \
-            np.float32(dataIn[25]).tobytes().hex().zfill(8) + \
-            np.float32(dataIn[27]).tobytes().hex().zfill(8)
+            np.float32(dataIn[1]).tobytes().hex().zfill(8)
 
     return strOut
+  
+    if sensorIn == "NPK":
+         strOut  = \
+            np.float32(dataIn[1]).tobytes().hex().zfill(8)+ \
+            np.float32(dataIn[3]).tobytes().hex().zfill(8) + \
+            np.float32(dataIn[5]).tobytes().hex().zfill(8)
 
-    if sensorIn == "BME688CNR":
-        strOut  = \
-            np.float32(dataIn[29]).tobytes().hex().zfill(8)+ \
-            np.float32(dataIn[31]).tobytes().hex().zfill(8) + \
-            np.float32(dataIn[33]).tobytes().hex().zfill(8)+ \
-            np.float32(dataIn[35]).tobytes().hex().zfill(8) + \
-            np.float32(dataIn[37]).tobytes().hex().zfill(8)+ \
-            np.float32(dataIn[39]).tobytes().hex().zfill(8) + \
-            np.float32(dataIn[41]).tobytes().hex().zfill(8)
+    return strOut
+  
+    if sensorIn == "PH":
+         strOut  = \
+            np.float32(dataIn[1]).tobytes().hex().zfill(8)
+
     return strOut
 
 def joinNetwork(numberOfTries, ser, timeOutIn):
     for currentTry in range(numberOfTries):
         print("Joining Network Trial: " + str(currentTry))
-        lines = sendCommand(ser,'AT+JOIN=DR3', timeOutIn)
+        lines = sendCommand(ser,'AT+JOIN', timeOutIn)
         
         #code below returns errors - no list is being returned by e5
         #for line in lines:
@@ -166,7 +159,7 @@ def main():
     sendCommand(serE5Mini,'AT+PORT=2',2)
         
     joined = False 
-    joined = joinNetwork(10, serE5Mini, 10)
+    joined = joinNetwork(1, serE5Mini, 10)
 
     if not joined:
         time.sleep(60)
@@ -184,6 +177,18 @@ def main():
     
     while True:
       
+        current_time = datetime.datetime.now()
+        randSoilMoisture = uniform(100, 130) #resistance of soil measured in kOhms
+        randN = uniform(130, 140) #nitrogen measured in mg/kg
+        randP = uniform(100, 110) #phosphorus measured in mg/kg
+        randK = uniform(150, 160) #potassium measured in mg/kg
+        randpH = uniform(6, 7.5)
+        soilMoistureList = ["soilMoisture", randSoilMoisture]
+        NPKList = ["Nitrogen", str(randN), "Phosphorus", str(randP), "Potassium", str(randK)]
+        pHList = ["pH", str(randpH)]
+        
+        
+      
         #sensorData = readSerialLine(serCanaree, 2, 44)
         #print(sensorData)
             
@@ -191,10 +196,18 @@ def main():
         #sensorData = readSerialLineStr(serGPS, 3, "GGA")
         #print(sensorData)
         
-        sensorData = readSerialLine(serCanaree,2,44)
-        strOut = getMessageStringHex(sensorData, "IPS7100CNR")
+        #sensorData = readSerialLine(serCanaree,2,44)
+        strOut = getMessageStringHex(soilMoistureList, "SOILMOISTURE")
         sendCommand(serE5Mini,'AT+PORT=17',2)
         sendCommand(serE5Mini,'AT+MSGHEX='+str(strOut),5)
+        
+        strOut = getMessageStringHex(NPKList, "NPK")
+        sendCommand(serE5Mini,'AT+PORT=25',2)
+        sendCommand(serE5Mini,'AT+MSGHEX='+str(strOut),5)
+ 
+        #third AT port?
+        #reception of data?
+
 
 if __name__ == "__main__":
     print("=============")
