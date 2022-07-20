@@ -27,8 +27,8 @@ mqttBroker = "mqtt.lora.trecis.cloud"
 connected    = False  # Stores the connection status
 broker       = mqttBroker  
 port         = mqttPort  # Secure port
-mqttUN       = "username"
-mqttPW       = "password"
+mqttUN       = "utd.mints"
+mqttPW       = "jD2DRChbYI3q"
 nodeObjects  = []
 decoder = json.JSONDecoder(object_pairs_hook=OrderedDict)
 nodeIDsPre = yaml.load(open("credentials/nodeIDs.yaml"),Loader=yaml.FullLoader)
@@ -66,7 +66,6 @@ def loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary):
 def sensorReceiveLoRa(dateTime,nodeID,sensorID,framePort,base16Data):
     global sensorDictionary
     
-    
     if(sensorID=="SOILMOISTURE"):
         sensorDictionary = SOILMOISTURELoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data) 
     elif(sensorID=="NPK"):
@@ -87,7 +86,7 @@ def SOILMOISTURELoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
 
 def NPKLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
     global sensorDictionary
-    if(framePort == 25 and len(base16Data) == 24) :
+    if(framePort == 37 and len(base16Data) == 24) :
         sensorDictionary =  OrderedDict([
                 ("dateTime", str(dateTime)), 
         		("N", struct.unpack('<L',bytes.fromhex(base16Data[0:8]))[0]),
@@ -95,10 +94,23 @@ def NPKLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
                 ("K", struct.unpack('<L',bytes.fromhex(base16Data[16:24]))[0])
         ])
         
+    #loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary)
+    #try to use unique soil dictionary name
+    print(sensorDictionary)
+    return sensorDictionary
+  
+def PHLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
+    global sensorDictionary
+    if(framePort == 39 and len(base16Data) == 24) :
+        sensorDictionary =  OrderedDict([
+                ("dateTime", str(dateTime)), 
+        		("pH", struct.unpack('<L',bytes.fromhex(base16Data[0:8]))[0]),
+        ])
+        
     #loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary)  
     print(sensorDictionary)
     return sensorDictionary
-
+  
 def getPortIndex(portIDIn,portIDs):
     indexOut = 0
     for portID in portIDs:
@@ -128,27 +140,6 @@ def loRaSummaryReceive(message,portIDs):
     base16Data          = base64.b64decode(sensorPackage['data'].encode()).hex()
     gatewayID           = base64.b64decode(rxInfo['gatewayID']).hex()
     framePort           = sensorPackage['fPort']
-    sensorDictionary =  OrderedDict([
-            ("dateTime"        , str(dateTime)),
-            ("nodeID"          , nodeID),
-            ("sensorID"        , sensorID),
-            ("gatewayID"       , gatewayID),
-            ("rssi"            , rxInfo["rssi"]),
-            ("loRaSNR"         , rxInfo["loRaSNR"]),
-            ("channel"         , rxInfo["channel"] ),
-            ("rfChain"         , rxInfo["rfChain"] ),
-            ("frequency"       , txInfo["frequency"]),
-            ("bandwidth"       , loRaModulationInfo["bandwidth"]),
-            ("spreadingFactor" , loRaModulationInfo["spreadingFactor"] ),
-            ("codeRate"        , loRaModulationInfo["codeRate"] ),
-            ("dataRate"        , sensorPackage['dr']),
-            ("frameCounters"   , sensorPackage['fCnt']),
-            ("framePort"       , framePort),
-            ("base64Data"      , sensorPackage['data']),
-            ("base16Data"      , base16Data),
-            ("devAddr"         , sensorPackage['devAddr']),
-            ("deviceAddDecoded", base64.b64decode(sensorPackage['devAddr'].encode()).hex())
-        ])
     # loRaWriteFinisher("LoRaNodes","Summary",dateTime,sensorDictionary)
     # loRaWriteFinisher(gatewayID,"Summary",dateTime,sensorDictionary)
     return dateTime,gatewayID,nodeID,sensorID,framePort,base16Data;
