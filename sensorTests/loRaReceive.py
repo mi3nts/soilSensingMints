@@ -120,7 +120,7 @@ def loRaSummaryReceive(message,portIDs):
     rxInfo              =  sensorPackage['rxInfo'][0]
     txInfo              =  sensorPackage['txInfo']
     loRaModulationInfo  =  txInfo['loRaModulationInfo']
-    sensorID            = portIDs[getPortIndex(sensorPacakage['fPort'],portIDs)]['sensor']
+    sensorID            = portIDs[getPortIndex(sensorPackage['fPort'],portIDs)]['sensor']
     dateTime            = datetime.fromisoformat(sensorPackage['publishedAt'][0:26]) #edited with monkeypatch
     base16Data          = base64.b64decode(sensorPackage['data'].encode()).hex()
     gatewayID           = base64.b64decode(rxInfo['gatewayID']).hex()
