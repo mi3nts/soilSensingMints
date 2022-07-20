@@ -7,6 +7,7 @@ import time
 import sys
 import numpy as np
 from random import randrange, uniform
+import random
 from collections import OrderedDict
 import json
 import struct
@@ -102,7 +103,7 @@ def getMessageStringHex(dataIn, sensorIn):
          strOut  = \
             np.float32(dataIn[1]).tobytes().hex().zfill(8)
 
-    return strOut
+         return strOut
   
     if sensorIn == "NPK":
          strOut  = \
@@ -110,13 +111,13 @@ def getMessageStringHex(dataIn, sensorIn):
             np.float32(dataIn[3]).tobytes().hex().zfill(8) + \
             np.float32(dataIn[5]).tobytes().hex().zfill(8)
 
-    return strOut
+         return strOut
   
     if sensorIn == "PH":
          strOut  = \
             np.float32(dataIn[1]).tobytes().hex().zfill(8)
 
-    return strOut
+         return strOut
 
 def joinNetwork(numberOfTries, ser, timeOutIn):
     for currentTry in range(numberOfTries):
@@ -170,7 +171,7 @@ def main():
     else:
         print("Network Found")
         
-    message    = hex(struct.unpack('<I', struct.pack('<I', 254))[0])
+    message = hex(struct.unpack('<I', struct.pack('<I', 254))[0])
     message = message.replace('0x','').zfill(2)
     sendCommand(serE5Mini,'AT+MSGHEX='+str(message),5)
     
@@ -178,15 +179,15 @@ def main():
     while True:
       
         current_time = datetime.datetime.now()
-        randSoilMoisture = uniform(100, 130) #resistance of soil measured in kOhms
-        randN = uniform(130, 140) #nitrogen measured in mg/kg
-        randP = uniform(100, 110) #phosphorus measured in mg/kg
-        randK = uniform(150, 160) #potassium measured in mg/kg
-        randpH = uniform(6, 7.5)
-        soilMoistureList = ["soilMoisture", randSoilMoisture]
+        randSoilMoisture = round(random.uniform(100, 130), 1) #resistance of soil measured in kOhms
+        randN = round(random.uniform(130, 140), 1) #nitrogen measured in mg/kg
+        randP = round(random.uniform(100, 110),1) #phosphorus measured in mg/kg
+        randK = round(random.uniform(150, 160), 1) #potassium measured in mg/kg
+        randpH = round(random.uniform(6, 7.5), 1)
+        soilMoistureList = ["soilMoisture", str(randSoilMoisture)]
         NPKList = ["Nitrogen", str(randN), "Phosphorus", str(randP), "Potassium", str(randK)]
         pHList = ["pH", str(randpH)]
-        
+          
         
       
         #sensorData = readSerialLine(serCanaree, 2, 44)
@@ -197,13 +198,17 @@ def main():
         #print(sensorData)
         
         #sensorData = readSerialLine(serCanaree,2,44)
-        strOut = getMessageStringHex(soilMoistureList, "SOILMOISTURE")
-        sendCommand(serE5Mini,'AT+PORT=17',2)
-        sendCommand(serE5Mini,'AT+MSGHEX='+str(strOut),5)
+        strOut1 = getMessageStringHex(soilMoistureList, "SOILMOISTURE")
+        sendCommand(serE5Mini, 'AT+PORT=17', 2)
+        sendCommand(serE5Mini, 'AT+MSGHEX='+str(strOut1), 5)
         
-        strOut = getMessageStringHex(NPKList, "NPK")
-        sendCommand(serE5Mini,'AT+PORT=25',2)
-        sendCommand(serE5Mini,'AT+MSGHEX='+str(strOut),5)
+        strOut2 = getMessageStringHex(NPKList, "NPK")
+        sendCommand(serE5Mini, 'AT+PORT=37', 2)
+        sendCommand(serE5Mini, 'AT+MSGHEX='+str(strOut2), 5)
+        
+        strOut3 = getMessageStringHex(pHList, "PH")
+        sendCommand(serE5Mini, 'AT+PORT=39', 2)
+        sendCommand(serE5Mini, 'AT+MSGHEX='+str(strOut3), 5)
  
         #third AT port?
         #reception of data?
