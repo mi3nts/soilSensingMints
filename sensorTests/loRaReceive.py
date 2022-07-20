@@ -27,8 +27,8 @@ mqttBroker = "mqtt.lora.trecis.cloud"
 connected    = False  # Stores the connection status
 broker       = mqttBroker  
 port         = mqttPort  # Secure port
-mqttUN       = "utd.mints"
-mqttPW       = "jD2DRChbYI3q"
+mqttUN       = username
+mqttPW       = password
 nodeObjects  = []
 decoder = json.JSONDecoder(object_pairs_hook=OrderedDict)
 nodeIDsPre = yaml.load(open("credentials/nodeIDs.yaml"),Loader=yaml.FullLoader)
@@ -61,33 +61,34 @@ def loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary):
     #print(writePath)	
     #mSR.writeCSV2(writePath,sensorDictionary,exists)
     mL.writeJSONLatestMQTT(sensorDictionary,nodeID,sensorID)
-    return;
 
 def sensorReceiveLoRa(dateTime,nodeID,sensorID,framePort,base16Data):
     global sensorDictionary
+    sensorDictionary =  OrderedDict([
+                ("dateTime" , str(dateTime))        ])
     
     if(sensorID=="SOILMOISTURE"):
         sensorDictionary = SOILMOISTURELoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data) 
     elif(sensorID=="NPK"):
         sensorDictionary = NPKLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data) 
-    return sensorDictionary;
+    return sensorDictionary
   
 def SOILMOISTURELoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
-    global sensorDictionary
+    global soilSensorDictionary
     if(framePort == 17 and len(base16Data) == 8) :
-        sensorDictionary =  OrderedDict([
+        soilSensorDictionary =  OrderedDict([
                 ("dateTime", str(dateTime)), 
         		("SoilMoisture", struct.unpack('<L',bytes.fromhex(base16Data[0:8]))[0])
         ])
         
     #loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary)  
-    print(sensorDictionary)
-    return sensorDictionary
+    print(soilSensorDictionary)
+    return soilSensorDictionary
 
 def NPKLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
-    global sensorDictionary
+    global npkSensorDictionary
     if(framePort == 37 and len(base16Data) == 24) :
-        sensorDictionary =  OrderedDict([
+        npkSensorDictionary =  OrderedDict([
                 ("dateTime", str(dateTime)), 
         		("N", struct.unpack('<L',bytes.fromhex(base16Data[0:8]))[0]),
                 ("P", struct.unpack('<L',bytes.fromhex(base16Data[8:16]))[0]),
@@ -96,20 +97,20 @@ def NPKLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
         
     #loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary)
     #try to use unique soil dictionary name
-    print(sensorDictionary)
-    return sensorDictionary
+    print(npkSensorDictionary)
+    return npkSensorDictionary
   
 def PHLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
-    global sensorDictionary
+    global pHSensorDictionary
     if(framePort == 39 and len(base16Data) == 24) :
-        sensorDictionary =  OrderedDict([
+        pHSensorDictionary =  OrderedDict([
                 ("dateTime", str(dateTime)), 
         		("pH", struct.unpack('<L',bytes.fromhex(base16Data[0:8]))[0]),
         ])
         
     #loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary)  
-    print(sensorDictionary)
-    return sensorDictionary
+    print(pHSensorDictionary)
+    return pHSensorDictionary
   
 def getPortIndex(portIDIn,portIDs):
     indexOut = 0
