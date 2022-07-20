@@ -19,8 +19,7 @@ import mintsLiveNodes as mLN
 #from datetime import date, time
 
 
-dataFolder = "/home/teamlary/mnt/teamlary1/mintsData"
-dataFolderMQTT = dataFolder +"rawMQTT"
+dataFolder = "/home/teamlary/vardhan/testSoilData/"
 
 mqttPort = 1883
 mqttBroker = "mqtt.lora.trecis.cloud"
@@ -40,54 +39,47 @@ portIDs             = portDefinitions['portIDs']
 
 ###############################################
 
-#def getWritePathMQTT(nodeID,labelIn,dateTime):
-    #Example  : MINTS_0061_OOPCN3_2019_01_04.csv
-    #writePath = dataFolderMQTT+"/"+nodeID+"/"+str(dateTime.year).zfill(4)  + "/" + str(dateTime.month).zfill(2)+ "/"+str(dateTime.day).zfill(2)+"/"+ "MINTS_"+ nodeID+ "_" +labelIn + "_" + str(dateTime.year).zfill(4) + "_" +str(dateTime.month).zfill(2) + "_" +str(dateTime.day).zfill(2) +".csv"
-    #return writePath;
-
-def writeJSONLatestMQTT(sensorDictionary,nodeID,sensorID):
-    directoryIn  = dataFolderMQTT+"/"+nodeID+"/"+sensorID+".json"
-    # print(directoryIn)
-    try:
-        with open(directoryIn,'w') as fp:
-            mSR.directoryCheck(directoryIn)
-            json.dump(sensorDictionary, fp)
-    except Exception as e:
-        print("[ERROR] Could not publish data, error: {}".format(e))
-        print("Json Data Not Written")
-  
-def loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary):
-    #writePath = mSR.getWritePathMQTT(nodeID,sensorID,dateTime)
-    #print(writePath)	
-    #mSR.writeCSV2(writePath,sensorDictionary,exists)
-    mL.writeJSONLatestMQTT(sensorDictionary,nodeID,sensorID)
-
-def sensorReceiveLoRa(dateTime,nodeID,sensorID,framePort,base16Data):
+#def writeJSONLatestMQTT(sensorDictionary, sensorID):
+    #directoryIn  = dataFolder+"/"+sensorID+".json"
+    #with open(directoryIn,'a') as fp:
+        #json.dump(sensorDictionary, fp)
+        
+def writeCSV2(sensorDictionary, sensorID):
+    writePath  = dataFolder+"/"+sensorID+".csv"
+    keys =  list(sensorDictionary.keys())
+    with open(writePath, 'a') as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=keys)
+        writer.writerow(sensorDictionary)
+        
+def sensorReceiveLoRa(dateTime, nodeID, sensorID, framePort, base16Data):
     global sensorDictionary
     sensorDictionary =  OrderedDict([
                 ("dateTime" , str(dateTime))        ])
     
-    if(sensorID=="SOILMOISTURE"):
-        sensorDictionary = SOILMOISTURELoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data) 
-    elif(sensorID=="NPK"):
-        sensorDictionary = NPKLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data) 
+    if(sensorID == "SOILMOISTURE"):
+        sensorDictionary = SOILMOISTURELoRaWrite(dateTime, nodeID, sensorID, framePort, base16Data) 
+    elif(sensorID == "NPK"):
+        sensorDictionary = NPKLoRaWrite(dateTime, nodeID, sensorID, framePort, base16Data) 
+    elif(sensorID == "PH"):
+        sensorDictionary = PHLoRaWrite(dateTime, nodeID, sensorID, framePort, base16Data)
     return sensorDictionary
   
-def SOILMOISTURELoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
+def SOILMOISTURELoRaWrite(dateTime, nodeID, sensorID, framePort, base16Data):
     global soilSensorDictionary
-    if(framePort == 17 and len(base16Data) == 8) :
+    if(framePort == 17 and len(base16Data) == 8):
         soilSensorDictionary =  OrderedDict([
                 ("dateTime", str(dateTime)), 
         		("SoilMoisture", struct.unpack('<L',bytes.fromhex(base16Data[0:8]))[0])
         ])
         
-    #loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary)  
+    #writeJSONLatestMQTT(soilSensorDictionary, sensorID) 
+    writeCSV2(soilSensorDictionary, sensorID)
     print(soilSensorDictionary)
     return soilSensorDictionary
 
-def NPKLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
+def NPKLoRaWrite(dateTime, nodeID, sensorID, framePort, base16Data):
     global npkSensorDictionary
-    if(framePort == 37 and len(base16Data) == 24) :
+    if(framePort == 37 and len(base16Data) == 24):
         npkSensorDictionary =  OrderedDict([
                 ("dateTime", str(dateTime)), 
         		("N", struct.unpack('<L',bytes.fromhex(base16Data[0:8]))[0]),
@@ -95,20 +87,21 @@ def NPKLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
                 ("K", struct.unpack('<L',bytes.fromhex(base16Data[16:24]))[0])
         ])
         
-    #loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary)
-    #try to use unique soil dictionary name
+    #writeJSONLatestMQTT(npkSensorDictionary, sensorID)
+    writeCSV2(npkSensorDictionary, sensorID)
     print(npkSensorDictionary)
     return npkSensorDictionary
   
-def PHLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
+def PHLoRaWrite(dateTime, nodeID, sensorID, framePort, base16Data):
     global pHSensorDictionary
-    if(framePort == 39 and len(base16Data) == 24) :
+    if(framePort == 39 and len(base16Data) == 8):
         pHSensorDictionary =  OrderedDict([
                 ("dateTime", str(dateTime)), 
         		("pH", struct.unpack('<L',bytes.fromhex(base16Data[0:8]))[0]),
         ])
         
-    #loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary)  
+    #writeJSONLatestMQTT(pHSensorDictionary, sensorID)  
+    writeCSV2(pHSensorDictionary, sensorID)
     print(pHSensorDictionary)
     return pHSensorDictionary
   
@@ -135,7 +128,7 @@ def loRaSummaryReceive(message,portIDs):
     rxInfo              =  sensorPackage['rxInfo'][0]
     txInfo              =  sensorPackage['txInfo']
     loRaModulationInfo  =  txInfo['loRaModulationInfo']
-    sensorID            = portIDs[getPortIndex(sensorPackage['fPort'],portIDs)]['sensor']
+    sensorID            = portIDs[getPortIndex(sensorPackage['fPort'], portIDs)]['sensor']
     inputDate           = sensorPackage['publishedAt'][0:26]
     dateTime            = inputDate.replace("T", " ") #edited with monkeypatch
     base16Data          = base64.b64decode(sensorPackage['data'].encode()).hex()
