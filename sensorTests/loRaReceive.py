@@ -38,8 +38,6 @@ portIDsFile         = "credentials/portIDs.yaml"
 portDefinitions     = yaml.load(open(portIDsFile),Loader=yaml.FullLoader)
 portIDs             = portDefinitions['portIDs']
 
-global sensorDictionary
-
 ###############################################
 
 #def getWritePathMQTT(nodeID,labelIn,dateTime):
@@ -66,6 +64,8 @@ def loRaWriteFinisher(nodeID,sensorID,dateTime,sensorDictionary):
     return;
 
 def sensorReceiveLoRa(dateTime,nodeID,sensorID,framePort,base16Data):
+    global sensorDictionary
+    
     
     if(sensorID=="SOILMOISTURE"):
         sensorDictionary = SOILMOISTURELoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data) 
@@ -74,6 +74,7 @@ def sensorReceiveLoRa(dateTime,nodeID,sensorID,framePort,base16Data):
     return sensorDictionary;
   
 def SOILMOISTURELoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
+    global sensorDictionary
     if(framePort == 17 and len(base16Data) == 8) :
         sensorDictionary =  OrderedDict([
                 ("dateTime", str(dateTime)), 
@@ -85,6 +86,7 @@ def SOILMOISTURELoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
     return sensorDictionary
 
 def NPKLoRaWrite(dateTime,nodeID,sensorID,framePort,base16Data):
+    global sensorDictionary
     if(framePort == 25 and len(base16Data) == 24) :
         sensorDictionary =  OrderedDict([
                 ("dateTime", str(dateTime)), 
@@ -163,24 +165,23 @@ def on_connect(client, userdata, flags, rc):
         nodeObjects.append(mLN.node(nodeID))
     
 def on_message(client, userdata, msg):
-    # try:
-        print()
-        print(" - - - MINTS DATA RECEIVED - - - ")
-        # print(msg.payload)
         dateTime,gatewayID,nodeID,sensorID,framePort,base16Data = \
-            loRaSummaryReceive(msg, portIDs)
-        print("Node ID         : " + nodeID)
-        nodeIndex = getNodeIndex(nodeID)
-        if nodeIndex >= 0 :  
-            print("============")
-            sensorDictionary = sensorReceiveLoRa(dateTime,nodeID,sensorID,framePort,base16Data)
-            dateTime = datetime.datetime.strptime(sensorDictionary["dateTime"], '%Y-%m-%d %H:%M:%S.%f')
+        loRaSummaryReceive(msg, portIDs)
+        # print(msg.payload)
+        if nodeID == "2cf7f12032304cc3":
+            print(" - - - MINTS DATA RECEIVED - - - ")
             print("Node ID         : " + nodeID)
-            print("Gateway ID      : " + gatewayID)
-            print("Sensor ID       : " + sensorID)
-            print("Date Time       : " + str(dateTime))
-            print("Port ID         : " + str(framePort))
-            print("Base 16 Data    : " + base16Data)
+            nodeIndex = getNodeIndex(nodeID)
+            if nodeIndex >= 0 :
+                print("============")
+                sensorDictionary = sensorReceiveLoRa(dateTime,nodeID,sensorID,framePort,base16Data)
+                dateTime = datetime.datetime.strptime(sensorDictionary["dateTime"], '%Y-%m-%d %H:%M:%S.%f')
+                print("Node ID         : " + nodeID)
+                print("Gateway ID      : " + gatewayID)
+                print("Sensor ID       : " + sensorID)
+                print("Date Time       : " + str(dateTime))
+                print("Port ID         : " + str(framePort))
+                print("Base 16 Data    : " + base16Data)
 
 client = mqtt.Client()
 client.on_connect = on_connect
